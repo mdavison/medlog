@@ -23,6 +23,7 @@
 		90AB1AB5234A37950018192E /* Medication+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AB3234A37950018192E /* Medication+CoreDataProperties.swift */; };
 		90AB1AB8234A3C0E0018192E /* User+CoreDataClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AB7234A3C0E0018192E /* User+CoreDataClassTests.swift */; };
 		90AB1ABA234A3C230018192E /* MockCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AB9234A3C230018192E /* MockCoreDataStack.swift */; };
+		90AB1ABE234A436F0018192E /* Medication+CoreDataClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1ABD234A436F0018192E /* Medication+CoreDataClassTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		90AB1AB3234A37950018192E /* Medication+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Medication+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		90AB1AB7234A3C0E0018192E /* User+CoreDataClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClassTests.swift"; sourceTree = "<group>"; };
 		90AB1AB9234A3C230018192E /* MockCoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoreDataStack.swift; sourceTree = "<group>"; };
+		90AB1ABD234A436F0018192E /* Medication+CoreDataClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Medication+CoreDataClassTests.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				90AB1AB7234A3C0E0018192E /* User+CoreDataClassTests.swift */,
+				90AB1ABD234A436F0018192E /* Medication+CoreDataClassTests.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 			files = (
 				90AB1AB8234A3C0E0018192E /* User+CoreDataClassTests.swift in Sources */,
 				90AB1ABA234A3C230018192E /* MockCoreDataStack.swift in Sources */,
+				90AB1ABE234A436F0018192E /* Medication+CoreDataClassTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
