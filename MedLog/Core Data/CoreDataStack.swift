@@ -11,7 +11,7 @@ import CoreData
 
 class CoreDataStack {
     
-    private let modelName: String
+    let modelName: String
     
     init() {
         self.modelName = "MedLog"
@@ -22,7 +22,8 @@ class CoreDataStack {
     }
     
     lazy var managedContext: NSManagedObjectContext = {
-        return self.persistentContainer.viewContext
+//        return self.persistentContainer.viewContext
+        return getManagedContext()
     }()
     
     private lazy var persistentContainer: NSPersistentCloudKitContainer = {
@@ -51,6 +52,10 @@ class CoreDataStack {
         })
         return container
     }()
+    
+    func getManagedContext() -> NSManagedObjectContext {
+        return self.persistentContainer.viewContext
+    }
     
     func saveContext () {
         guard managedContext.hasChanges else { return }
