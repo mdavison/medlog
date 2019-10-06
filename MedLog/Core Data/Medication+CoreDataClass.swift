@@ -13,4 +13,23 @@ import CoreData
 @objc(Medication)
 public class Medication: NSManagedObject {
 
+    convenience init?(name: String, coreDataStack: CoreDataStack) {
+        self.init(context: coreDataStack.managedContext)
+        
+        self.name = name
+        coreDataStack.saveContext()
+    }
+    
+    static func getAll(with coreDataStack: CoreDataStack) -> [Medication] {
+        var medications = [Medication]()
+        
+        let request: NSFetchRequest<Medication> = Medication.fetchRequest()
+        do {
+            medications = try coreDataStack.managedContext.fetch(request) as [Medication]
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        return medications
+    }
 }

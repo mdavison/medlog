@@ -1,5 +1,5 @@
 //
-//  User+CoreDataClassTests.swift
+//  Medication+CoreDataClassTests.swift
 //  MedLogTests
 //
 //  Created by Morgan Davison on 10/6/19.
@@ -10,11 +10,11 @@ import XCTest
 import CoreData
 @testable import MedLog
 
-class User_CoreDataClassTests: XCTestCase {
-
-    var coreDataStack: MockCoreDataStack?
-    var user: User?
+class Medication_CoreDataClassTests: XCTestCase {
     
+    var coreDataStack: MockCoreDataStack?
+    var medication: Medication?
+
     override func setUp() {
         super.setUp()
         
@@ -25,22 +25,19 @@ class User_CoreDataClassTests: XCTestCase {
             return
         }
         
-        user = User(context: coreDataStack.managedContext)
+        medication = Medication(context: coreDataStack.managedContext)
         
-        // Make sure we start with an empty db
         clearDatabase()
     }
 
     override func tearDown() {
-        super.tearDown()
-        
-        clearDatabase()
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-    
+
     func testCheckEmpty() {
         if let coreDataStack = coreDataStack {
-            let users = User.getAll(with: coreDataStack)
-            XCTAssertEqual(users.count, 0)
+            let meds = Medication.getAll(with: coreDataStack)
+            XCTAssertEqual(meds.count, 0)
         } else {
             XCTFail()
         }
@@ -53,28 +50,25 @@ class User_CoreDataClassTests: XCTestCase {
         }
         
         let _ = [
-            User(context: coreDataStack.managedContext),
-            User(context: coreDataStack.managedContext),
-            User(context: coreDataStack.managedContext)
+            Medication(context: coreDataStack.managedContext),
+            Medication(context: coreDataStack.managedContext),
+            Medication(context: coreDataStack.managedContext)
         ]
         
         coreDataStack.saveContext()
         
-        let users = User.getAll(with: coreDataStack)
+        let meds = Medication.getAll(with: coreDataStack)
         
-        XCTAssertEqual(users.count, 3)
+        XCTAssertEqual(meds.count, 3)
     }
-
-    
-
     
     // MARK: - Helpers
     
     private func clearDatabase() {
-        let users = User.getAll(with: coreDataStack!)
-        for user in users {
-            coreDataStack?.managedContext.delete(user)
+        let meds = Medication.getAll(with: coreDataStack!)
+        for med in meds {
+            coreDataStack?.managedContext.delete(med)
         }
     }
-    
+
 }
