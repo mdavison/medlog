@@ -78,7 +78,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="N5O-12-RWx">
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="3m8-vT-iWN"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="vSs-ue-pSp"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="vSs-ue-pSp">
+                            <connections>
+                                <action selector="addUser:" destination="gxW-gZ-K22" id="Zhd-lY-hc1"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S6s-hn-Nzd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

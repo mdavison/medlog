@@ -7,16 +7,18 @@
 //
 
 import UIKit
+import CoreData
 
 protocol UserSelectionDelegate: class {
-    func userSelected(_ newUser: User)
+    func userSelected(_ user: User)
 }
 
 class UsersTableViewController: UITableViewController {
     
     static let userCellReuseIdentifier = "UserCell"
     
-    var users: [User]?
+    lazy var coreDataStack = CoreDataStack()
+    var users = [User]()
     weak var delegate: UserSelectionDelegate?
     
 
@@ -25,27 +27,31 @@ class UsersTableViewController: UITableViewController {
         
         self.navigationItem.leftBarButtonItem = self.editButtonItem
         
+        users = User.getAll(with: coreDataStack)
+        
+        if let firstUser = users.first {
+            delegate?.userSelected(firstUser)
+        }
     }
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users?.count ?? 0
+        return users.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UsersTableViewController.userCellReuseIdentifier, for: indexPath)
 
-        if let users = users {
-            let user = users[indexPath.row]
-            cell.textLabel?.text = user.name
-        }
-
+        let user = users[indexPath.row]
+        
+        cell.textLabel?.text = user.name
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedUser = users?[indexPath.row] else { return }
+        let selectedUser = users[indexPath.row]
         
         delegate?.userSelected(selectedUser)
         
@@ -101,5 +107,16 @@ class UsersTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    // MARK: - Actions
+    
+    @IBAction func addUser(_ sender: UIBarButtonItem) {
+        if let user = User(name: "\(Date())", coreDataStack: coreDataStack) {
+            users.append(user)
+            tableView.reloadData()
+        }
+    }
+    
 
 }

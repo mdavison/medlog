@@ -11,6 +11,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    lazy var coreDataStack = CoreDataStack()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -28,11 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let detailViewController = detailNavController.viewControllers.first as? DosesTableViewController else {
                 fatalError()
         }
-        
-        let users = User.getSampleUsers()
-        masterViewController.users = users 
-        let firstUser = masterViewController.users?.first
-        detailViewController.user = firstUser
+
         masterViewController.delegate = detailViewController
         
         // Navigation in portrait mode
@@ -68,7 +65,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        coreDataStack.saveContext()
     }
 
 

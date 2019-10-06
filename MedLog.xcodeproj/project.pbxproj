@@ -16,12 +16,13 @@
 		90AB1A8E2342D5820018192E /* MedLogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1A8D2342D5820018192E /* MedLogUITests.swift */; };
 		90AB1A9C2342D8FC0018192E /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1A9B2342D8FC0018192E /* UsersTableViewController.swift */; };
 		90AB1A9E2342DACC0018192E /* DosesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1A9D2342DACC0018192E /* DosesTableViewController.swift */; };
-		90AB1AA0234421300018192E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1A9F234421300018192E /* User.swift */; };
-		90AB1AA2234424B10018192E /* Medication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AA1234424B10018192E /* Medication.swift */; };
-		90AB1AA4234425AF0018192E /* Dose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AA3234425AF0018192E /* Dose.swift */; };
-		90AB1AA6234426CA0018192E /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AA5234426CA0018192E /* UserTests.swift */; };
-		90AB1AA823456EBB0018192E /* MedicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AA723456EBB0018192E /* MedicationTests.swift */; };
-		90AB1AAA23456FAF0018192E /* DoseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AA923456FAF0018192E /* DoseTests.swift */; };
+		90AB1AAD2348225B0018192E /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AAB2348225B0018192E /* User+CoreDataClass.swift */; };
+		90AB1AAE2348225B0018192E /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AAC2348225B0018192E /* User+CoreDataProperties.swift */; };
+		90AB1AB1234A281E0018192E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AB0234A281E0018192E /* CoreDataStack.swift */; };
+		90AB1AB4234A37950018192E /* Medication+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AB2234A37950018192E /* Medication+CoreDataClass.swift */; };
+		90AB1AB5234A37950018192E /* Medication+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AB3234A37950018192E /* Medication+CoreDataProperties.swift */; };
+		90AB1AB8234A3C0E0018192E /* User+CoreDataClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AB7234A3C0E0018192E /* User+CoreDataClassTests.swift */; };
+		90AB1ABA234A3C230018192E /* MockCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AB9234A3C230018192E /* MockCoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,12 +58,13 @@
 		90AB1A8F2342D5820018192E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90AB1A9B2342D8FC0018192E /* UsersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
 		90AB1A9D2342DACC0018192E /* DosesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DosesTableViewController.swift; sourceTree = "<group>"; };
-		90AB1A9F234421300018192E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		90AB1AA1234424B10018192E /* Medication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Medication.swift; sourceTree = "<group>"; };
-		90AB1AA3234425AF0018192E /* Dose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dose.swift; sourceTree = "<group>"; };
-		90AB1AA5234426CA0018192E /* UserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
-		90AB1AA723456EBB0018192E /* MedicationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationTests.swift; sourceTree = "<group>"; };
-		90AB1AA923456FAF0018192E /* DoseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoseTests.swift; sourceTree = "<group>"; };
+		90AB1AAB2348225B0018192E /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
+		90AB1AAC2348225B0018192E /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		90AB1AB0234A281E0018192E /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		90AB1AB2234A37950018192E /* Medication+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Medication+CoreDataClass.swift"; sourceTree = "<group>"; };
+		90AB1AB3234A37950018192E /* Medication+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Medication+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		90AB1AB7234A3C0E0018192E /* User+CoreDataClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClassTests.swift"; sourceTree = "<group>"; };
+		90AB1AB9234A3C230018192E /* MockCoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,14 +119,12 @@
 				90AB1A6A2342D57F0018192E /* SceneDelegate.swift */,
 				90AB1A9B2342D8FC0018192E /* UsersTableViewController.swift */,
 				90AB1A9D2342DACC0018192E /* DosesTableViewController.swift */,
-				90AB1A9F234421300018192E /* User.swift */,
-				90AB1AA1234424B10018192E /* Medication.swift */,
-				90AB1AA3234425AF0018192E /* Dose.swift */,
 				90AB1A6E2342D57F0018192E /* Main.storyboard */,
 				90AB1A742342D5820018192E /* Assets.xcassets */,
 				90AB1A762342D5820018192E /* LaunchScreen.storyboard */,
 				90AB1A792342D5820018192E /* Info.plist */,
 				90AB1A712342D5800018192E /* MedLog.xcdatamodeld */,
+				90AB1AAF234822600018192E /* Core Data */,
 			);
 			path = MedLog;
 			sourceTree = "<group>";
@@ -132,10 +132,9 @@
 		90AB1A812342D5820018192E /* MedLogTests */ = {
 			isa = PBXGroup;
 			children = (
-				90AB1AA5234426CA0018192E /* UserTests.swift */,
-				90AB1AA723456EBB0018192E /* MedicationTests.swift */,
-				90AB1AA923456FAF0018192E /* DoseTests.swift */,
 				90AB1A842342D5820018192E /* Info.plist */,
+				90AB1ABC234A3C330018192E /* CoreData */,
+				90AB1ABB234A3C290018192E /* Mocks */,
 			);
 			path = MedLogTests;
 			sourceTree = "<group>";
@@ -147,6 +146,34 @@
 				90AB1A8F2342D5820018192E /* Info.plist */,
 			);
 			path = MedLogUITests;
+			sourceTree = "<group>";
+		};
+		90AB1AAF234822600018192E /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				90AB1AB0234A281E0018192E /* CoreDataStack.swift */,
+				90AB1AB2234A37950018192E /* Medication+CoreDataClass.swift */,
+				90AB1AB3234A37950018192E /* Medication+CoreDataProperties.swift */,
+				90AB1AAB2348225B0018192E /* User+CoreDataClass.swift */,
+				90AB1AAC2348225B0018192E /* User+CoreDataProperties.swift */,
+			);
+			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		90AB1ABB234A3C290018192E /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				90AB1AB9234A3C230018192E /* MockCoreDataStack.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		90AB1ABC234A3C330018192E /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				90AB1AB7234A3C0E0018192E /* User+CoreDataClassTests.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -280,13 +307,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90AB1AA4234425AF0018192E /* Dose.swift in Sources */,
+				90AB1AB4234A37950018192E /* Medication+CoreDataClass.swift in Sources */,
 				90AB1A692342D57F0018192E /* AppDelegate.swift in Sources */,
-				90AB1AA2234424B10018192E /* Medication.swift in Sources */,
 				90AB1A6B2342D57F0018192E /* SceneDelegate.swift in Sources */,
-				90AB1AA0234421300018192E /* User.swift in Sources */,
+				90AB1AAD2348225B0018192E /* User+CoreDataClass.swift in Sources */,
+				90AB1AB5234A37950018192E /* Medication+CoreDataProperties.swift in Sources */,
+				90AB1AB1234A281E0018192E /* CoreDataStack.swift in Sources */,
 				90AB1A9C2342D8FC0018192E /* UsersTableViewController.swift in Sources */,
 				90AB1A9E2342DACC0018192E /* DosesTableViewController.swift in Sources */,
+				90AB1AAE2348225B0018192E /* User+CoreDataProperties.swift in Sources */,
 				90AB1A732342D5800018192E /* MedLog.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,9 +324,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90AB1AAA23456FAF0018192E /* DoseTests.swift in Sources */,
-				90AB1AA823456EBB0018192E /* MedicationTests.swift in Sources */,
-				90AB1AA6234426CA0018192E /* UserTests.swift in Sources */,
+				90AB1AB8234A3C0E0018192E /* User+CoreDataClassTests.swift in Sources */,
+				90AB1ABA234A3C230018192E /* MockCoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

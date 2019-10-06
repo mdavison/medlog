@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class DosesTableViewController: UITableViewController {
 
@@ -17,13 +18,13 @@ class DosesTableViewController: UITableViewController {
             refreshUI()
         }
     }
-    var doses: [Dose]?
+    var doses = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = user?.name ?? "No name"
-        doses = Dose.getSampleDoses()
+        doses = ["Dose 1", "Dose2", "Dose3"]
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
@@ -36,16 +37,15 @@ class DosesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return doses?.count ?? 0
+        return doses.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DosesTableViewController.doseCellReuseIdentifier, for: indexPath)
 
-        if let dose = doses?[indexPath.row] {
-            cell.textLabel?.text = dose.medication.name
-        }
-
+        let dose = doses[indexPath.row]
+        cell.textLabel?.text = dose
+        
         return cell
     }
 
@@ -100,7 +100,6 @@ class DosesTableViewController: UITableViewController {
     private func refreshUI() {
         loadViewIfNeeded()
         title = user?.name
-        // TODO: update doses for user - Dose.getDoses(for: user)
         tableView.reloadData()
     }
 
@@ -111,7 +110,7 @@ class DosesTableViewController: UITableViewController {
 
 extension DosesTableViewController: UserSelectionDelegate {
     
-    func userSelected(_ newUser: User) {
-        user = newUser 
+    func userSelected(_ user: User) {
+        self.user = user
     }
 }
