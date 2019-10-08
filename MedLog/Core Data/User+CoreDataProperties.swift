@@ -2,7 +2,7 @@
 //  User+CoreDataProperties.swift
 //  MedLog
 //
-//  Created by Morgan Davison on 10/4/19.
+//  Created by Morgan Davison on 10/7/19.
 //  Copyright © 2019 Morgan Davison. All rights reserved.
 //
 //
@@ -18,5 +18,23 @@ extension User {
     }
 
     @NSManaged public var name: String?
+    @NSManaged public var doses: NSSet?
+
+}
+
+// MARK: Generated accessors for doses
+extension User {
+
+    @objc(addDosesObject:)
+    @NSManaged public func addToDoses(_ value: Dose)
+
+    @objc(removeDosesObject:)
+    @NSManaged public func removeFromDoses(_ value: Dose)
+
+    @objc(addDoses:)
+    @NSManaged public func addToDoses(_ values: NSSet)
+
+    @objc(removeDoses:)
+    @NSManaged public func removeFromDoses(_ values: NSSet)
 
 }
