@@ -24,6 +24,9 @@
 		90AB1AB8234A3C0E0018192E /* User+CoreDataClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AB7234A3C0E0018192E /* User+CoreDataClassTests.swift */; };
 		90AB1ABA234A3C230018192E /* MockCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AB9234A3C230018192E /* MockCoreDataStack.swift */; };
 		90AB1ABE234A436F0018192E /* Medication+CoreDataClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1ABD234A436F0018192E /* Medication+CoreDataClassTests.swift */; };
+		90AB1AC1234C0F740018192E /* Dose+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1ABF234C0F740018192E /* Dose+CoreDataClass.swift */; };
+		90AB1AC2234C0F740018192E /* Dose+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AC0234C0F740018192E /* Dose+CoreDataProperties.swift */; };
+		90AB1AC4234C10060018192E /* Dose+CoreDataClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AC3234C10060018192E /* Dose+CoreDataClassTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +70,9 @@
 		90AB1AB7234A3C0E0018192E /* User+CoreDataClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClassTests.swift"; sourceTree = "<group>"; };
 		90AB1AB9234A3C230018192E /* MockCoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoreDataStack.swift; sourceTree = "<group>"; };
 		90AB1ABD234A436F0018192E /* Medication+CoreDataClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Medication+CoreDataClassTests.swift"; sourceTree = "<group>"; };
+		90AB1ABF234C0F740018192E /* Dose+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dose+CoreDataClass.swift"; sourceTree = "<group>"; };
+		90AB1AC0234C0F740018192E /* Dose+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dose+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		90AB1AC3234C10060018192E /* Dose+CoreDataClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dose+CoreDataClassTests.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +160,8 @@
 			isa = PBXGroup;
 			children = (
 				90AB1AB0234A281E0018192E /* CoreDataStack.swift */,
+				90AB1ABF234C0F740018192E /* Dose+CoreDataClass.swift */,
+				90AB1AC0234C0F740018192E /* Dose+CoreDataProperties.swift */,
 				90AB1AB2234A37950018192E /* Medication+CoreDataClass.swift */,
 				90AB1AB3234A37950018192E /* Medication+CoreDataProperties.swift */,
 				90AB1AAB2348225B0018192E /* User+CoreDataClass.swift */,
@@ -175,6 +183,7 @@
 			children = (
 				90AB1AB7234A3C0E0018192E /* User+CoreDataClassTests.swift */,
 				90AB1ABD234A436F0018192E /* Medication+CoreDataClassTests.swift */,
+				90AB1AC3234C10060018192E /* Dose+CoreDataClassTests.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -311,6 +320,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				90AB1AB4234A37950018192E /* Medication+CoreDataClass.swift in Sources */,
+				90AB1AC1234C0F740018192E /* Dose+CoreDataClass.swift in Sources */,
+				90AB1AC2234C0F740018192E /* Dose+CoreDataProperties.swift in Sources */,
 				90AB1A692342D57F0018192E /* AppDelegate.swift in Sources */,
 				90AB1A6B2342D57F0018192E /* SceneDelegate.swift in Sources */,
 				90AB1AAD2348225B0018192E /* User+CoreDataClass.swift in Sources */,
@@ -329,6 +340,7 @@
 			files = (
 				90AB1AB8234A3C0E0018192E /* User+CoreDataClassTests.swift in Sources */,
 				90AB1ABA234A3C230018192E /* MockCoreDataStack.swift in Sources */,
+				90AB1AC4234C10060018192E /* Dose+CoreDataClassTests.swift in Sources */,
 				90AB1ABE234A436F0018192E /* Medication+CoreDataClassTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
