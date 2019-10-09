@@ -13,29 +13,32 @@ import CoreData
 class Dose_CoreDataClassTests: XCTestCase {
 
     var coreDataStack: MockCoreDataStack?
-    var medication: Medication?
-    var user: User?
-    var dose: Dose?
+//    var medication: Medication?
+//    var user: User?
+//    var dose: Dose?
     
     override func setUp() {
         super.setUp()
         
         coreDataStack = MockCoreDataStack(modelName: "MedLogMock")
         
-        guard let coreDataStack = coreDataStack else {
-            XCTFail("Expected coreDataStack to be set")
-            return
-        }
+//        guard let coreDataStack = coreDataStack else {
+//            XCTFail("Expected coreDataStack to be set")
+//            return
+//        }
         
-        medication = Medication(context: coreDataStack.managedContext)
-        user = User(context: coreDataStack.managedContext)
-        dose = Dose(context: coreDataStack.managedContext)
-        
-        clearDatabase()
+//        medication = Medication(name: "Test Med", coreDataStack: coreDataStack)
+//        user = User(name: "Test User", coreDataStack: coreDataStack)
+//        dose = Dose(context: coreDataStack.managedContext)
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        clearDatabase()
+        
+        coreDataStack = nil
+//        medication = nil
+//        user = nil
+//        dose = nil
     }
 
     func testCheckEmpty() {
@@ -45,6 +48,51 @@ class Dose_CoreDataClassTests: XCTestCase {
         } else {
             XCTFail()
         }
+    }
+    
+    func testGetAll() {
+        guard let coreDataStack = coreDataStack else {
+            XCTFail("Expected coreDataStack to be set")
+            return
+        }
+        
+        let _ = [
+            Dose(context: coreDataStack.managedContext),
+            Dose(context: coreDataStack.managedContext),
+            Dose(context: coreDataStack.managedContext)
+        ]
+        
+        coreDataStack.saveContext()
+        
+        let doses = Dose.getAll(with: coreDataStack)
+        
+        XCTAssertEqual(doses.count, 3)
+    }
+    
+    func testGetAllForUser() {
+        guard let coreDataStack = coreDataStack else {
+            XCTFail("Expected coreDataStack to be set")
+            return
+        }
+        
+        guard
+        
+        let user1 = User(name: "TestUser1", coreDataStack: coreDataStack),
+        let user2 = User(name: "TestUser2", coreDataStack: coreDataStack),
+        let med1 = Medication(name: "TestMed1", coreDataStack: coreDataStack),
+        let med2 = Medication(name: "TestMed2", coreDataStack: coreDataStack) else {
+            XCTFail("Unable to set up users and medications")
+            return
+        }
+        
+        let _ = [
+            Dose(date: Date(), medication: med1, user: user1, coreDataStack: coreDataStack),
+            Dose(date: Date(), medication: med2, user: user2, coreDataStack: coreDataStack),
+            Dose(date: Date(), medication: med2, user: user2, coreDataStack: coreDataStack)
+        ]
+        let doses = Dose.getAll(for: user2, coreDataStack: coreDataStack)
+        
+        XCTAssertEqual(doses.count, 2)
     }
     
     // MARK: - Helpers

@@ -31,6 +31,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
 
         masterViewController.delegate = detailViewController
+        masterViewController.coreDataStack = coreDataStack
+        detailViewController.coreDataStack = coreDataStack
         
         // Navigation in portrait mode
         detailViewController.navigationItem.leftItemsSupplementBackButton = true
