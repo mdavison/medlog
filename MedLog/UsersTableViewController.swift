@@ -17,7 +17,7 @@ class UsersTableViewController: UITableViewController {
     
     static let userCellReuseIdentifier = "UserCell"
     
-    lazy var coreDataStack = CoreDataStack()
+    var coreDataStack: CoreDataStack?
     var users = [User]()
     weak var delegate: UserSelectionDelegate?
     
@@ -27,9 +27,12 @@ class UsersTableViewController: UITableViewController {
         
         self.navigationItem.leftBarButtonItem = self.editButtonItem
         
-        users = User.getAll(with: coreDataStack)
+        if let coreDataStack = coreDataStack {
+            users = User.getAll(with: coreDataStack)
+        }
         
         if let firstUser = users.first {
+            tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
             delegate?.userSelected(firstUser)
         }
     }
@@ -112,6 +115,8 @@ class UsersTableViewController: UITableViewController {
     // MARK: - Actions
     
     @IBAction func addUser(_ sender: UIBarButtonItem) {
+        guard let coreDataStack = coreDataStack else { return }
+        
         if let user = User(name: "\(Date())", coreDataStack: coreDataStack) {
             users.append(user)
             tableView.reloadData()

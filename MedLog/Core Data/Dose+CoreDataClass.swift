@@ -35,5 +35,21 @@ public class Dose: NSManagedObject {
         
         return doses
     }
+    
+    static func getAll(for user: User, coreDataStack: CoreDataStack) -> [Dose] {
+        var doses = [Dose]()
+        
+        guard let userName = user.name else { return doses }
+        
+        let request: NSFetchRequest<Dose> = Dose.fetchRequest()
+        request.predicate = NSPredicate(format: "user.name == %@", userName)
+        do {
+            doses = try coreDataStack.managedContext.fetch(request) as [Dose]
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        return doses
+    }
 
 }

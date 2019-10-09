@@ -15,16 +15,17 @@ class DosesTableViewController: UITableViewController {
     
     var user: User? {
         didSet {
+            updateDoses()
             refreshUI()
         }
     }
-    var doses = [String]()
+    var coreDataStack: CoreDataStack?
+    var doses = [Dose]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = user?.name ?? "No name"
-        doses = ["Dose 1", "Dose2", "Dose3"]
+        title = user?.name ?? ""
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
@@ -44,7 +45,7 @@ class DosesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: DosesTableViewController.doseCellReuseIdentifier, for: indexPath)
 
         let dose = doses[indexPath.row]
-        cell.textLabel?.text = dose
+        cell.textLabel?.text = "\(dose.medication?.name) at \(dose.date)"
         
         return cell
     }
@@ -95,12 +96,36 @@ class DosesTableViewController: UITableViewController {
     */
     
     
+    // MARK: - Actions
+    
+    @IBAction func addDose(_ sender: UIBarButtonItem) {
+        guard
+            let coreDataStack = coreDataStack,
+            let medication = Medication(name: "Tylenol", coreDataStack: coreDataStack),
+            let user = user else {
+                return
+        }
+        
+        if let dose = Dose(date: Date(), medication: medication, user: user, coreDataStack: coreDataStack) {
+            doses.append(dose)
+            tableView.reloadData()
+        }
+    }
+    
+    
+    
     // MARK: - Helpers
     
     private func refreshUI() {
         loadViewIfNeeded()
         title = user?.name
         tableView.reloadData()
+    }
+    
+    private func updateDoses() {
+        if let coreDataStack = coreDataStack, let user = user {
+            doses = Dose.getAll(for: user, coreDataStack: coreDataStack)
+        }
     }
 
 }
