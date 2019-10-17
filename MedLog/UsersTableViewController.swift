@@ -18,8 +18,22 @@ class UsersTableViewController: UITableViewController {
     static let userCellReuseIdentifier = "UserCell"
     
     var coreDataStack: CoreDataStack?
-    var users = [User]()
     weak var delegate: UserSelectionDelegate?
+    
+    lazy var fetchedResultsController: NSFetchedResultsController<User> = {
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        let sort = NSSortDescriptor(key: #keyPath(User.name), ascending: true)
+        fetchRequest.sortDescriptors = [sort]
+        
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: coreDataStack!.managedContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
+        fetchedResultsController.delegate = self
+        
+        return fetchedResultsController
+    }()
     
 
     override func viewDidLoad() {
@@ -27,11 +41,15 @@ class UsersTableViewController: UITableViewController {
         
         self.navigationItem.leftBarButtonItem = self.editButtonItem
         
-        if let coreDataStack = coreDataStack {
-            users = User.getAll(with: coreDataStack)
+        do {
+            try fetchedResultsController.performFetch()
+        } catch let error {
+            print("Fetching error: \(error.localizedDescription)")
         }
         
-        if let firstUser = users.first {
+        // Select the first user by default
+        // TODO: Remember the last selection and select that one instead of the first one
+        if let firstUser = fetchedResultsController.fetchedObjects?.first {
             tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
             delegate?.userSelected(firstUser)
         }
@@ -40,21 +58,21 @@ class UsersTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }
+        
+        return sectionInfo.numberOfObjects
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UsersTableViewController.userCellReuseIdentifier, for: indexPath)
-
-        let user = users[indexPath.row]
         
-        cell.textLabel?.text = user.name
+        configure(cell: cell, for: indexPath)
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedUser = users[indexPath.row]
+        let selectedUser = fetchedResultsController.object(at: indexPath)
         
         delegate?.userSelected(selectedUser)
         
@@ -72,13 +90,10 @@ class UsersTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let user = users[indexPath.row]
+            let user = fetchedResultsController.object(at: indexPath)
             coreDataStack?.managedContext.delete(user)
             coreDataStack?.saveContext()
-            users.remove(at: indexPath.row)
-            
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }    
+        }
     }
 
     /*
@@ -112,12 +127,48 @@ class UsersTableViewController: UITableViewController {
     @IBAction func addUser(_ sender: UIBarButtonItem) {
         guard let coreDataStack = coreDataStack else { return }
         
-        if let user = User(name: "\(Date())", coreDataStack: coreDataStack) {
-            users.append(user)
-            let indexPath = IndexPath(row: users.count - 1, section: 0)
-            tableView.insertRows(at: [indexPath], with: .automatic)
+        _ = User(name: "\(Date())", coreDataStack: coreDataStack)
+        
+        coreDataStack.saveContext()
+    }
+    
+    
+    // MARK: - Helpers
+    
+    private func configure(cell: UITableViewCell, for indexPath: IndexPath) {
+        let user = fetchedResultsController.object(at: indexPath)
+        
+        cell.textLabel?.text = user.name
+    }
+
+}
+
+
+
+extension UsersTableViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+        
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
+        case .update:
+            let cell = tableView.cellForRow(at: indexPath!)!
+            configure(cell: cell, for: indexPath!)
+        case .move:
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
+        @unknown default:
+            print("Unexpected NSFetchedResultsChangeType")
         }
     }
     
-
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
 }
