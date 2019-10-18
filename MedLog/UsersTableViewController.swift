@@ -144,6 +144,7 @@ class UsersTableViewController: UITableViewController {
 }
 
 
+// MARK: - NSFetchedResultsControllerDelegate
 
 extension UsersTableViewController: NSFetchedResultsControllerDelegate {
     

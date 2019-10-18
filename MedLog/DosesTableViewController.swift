@@ -15,20 +15,47 @@ class DosesTableViewController: UITableViewController {
     
     var user: User? {
         didSet {
-            updateDoses()
-            refreshUI()
+            _fetchedResultsController = nil
+            
+            do {
+                try fetchedResultsController.performFetch()
+                refreshUI()
+            } catch let error {
+                print("Fetching error: \(error.localizedDescription)")
+            }
         }
     }
     var coreDataStack: CoreDataStack?
-    var doses = [Dose]()
+    var fetchedResultsController: NSFetchedResultsController<Dose> {
+        if _fetchedResultsController != nil {
+            return _fetchedResultsController!
+        }
+        
+        let fetchRequest: NSFetchRequest<Dose> = Dose.fetchRequest()
+        let sort = NSSortDescriptor(key: #keyPath(Dose.date), ascending: true)
+        fetchRequest.sortDescriptors = [sort]
+        
+        fetchRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(Dose.user), self.user!)
+        
+        
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: coreDataStack!.managedContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
+        fetchedResultsController.delegate = self
+        _fetchedResultsController = fetchedResultsController
+        
+        return _fetchedResultsController!
+    }
+    var _fetchedResultsController: NSFetchedResultsController<Dose>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = user?.name ?? ""
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+         self.navigationItem.leftBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
@@ -38,37 +65,32 @@ class DosesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return doses.count
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }
+        
+        return sectionInfo.numberOfObjects
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DosesTableViewController.doseCellReuseIdentifier, for: indexPath)
-
-        let dose = doses[indexPath.row]
-        cell.textLabel?.text = "\(dose.medication?.name) at \(dose.date)"
+        
+        configure(cell: cell, for: indexPath)
         
         return cell
     }
+    
+    
 
-    /*
-    // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
 
-    /*
-    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            let dose = fetchedResultsController.object(at: indexPath)
+            coreDataStack?.managedContext.delete(dose)
+            coreDataStack?.saveContext()
+        }
     }
-    */
 
     /*
     // Override to support rearranging the table view.
@@ -105,11 +127,10 @@ class DosesTableViewController: UITableViewController {
             let user = user else {
                 return
         }
+                
+        _ = Dose(date: Date(), medication: medication, user: user, coreDataStack: coreDataStack)
         
-        if let dose = Dose(date: Date(), medication: medication, user: user, coreDataStack: coreDataStack) {
-            doses.append(dose)
-            tableView.reloadData()
-        }
+        coreDataStack.saveContext()
     }
     
     
@@ -122,10 +143,9 @@ class DosesTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    private func updateDoses() {
-        if let coreDataStack = coreDataStack, let user = user {
-            doses = Dose.getAll(for: user, coreDataStack: coreDataStack)
-        }
+    private func configure(cell: UITableViewCell, for indexPath: IndexPath) {
+        let dose = fetchedResultsController.object(at: indexPath)
+        cell.textLabel?.text = "\(dose.medication?.name) at \(dose.date)"
     }
 
 }
@@ -137,5 +157,36 @@ extension DosesTableViewController: UserSelectionDelegate {
     
     func userSelected(_ user: User) {
         self.user = user
+    }
+}
+
+
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension DosesTableViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+        
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
+        case .update:
+            let cell = tableView.cellForRow(at: indexPath!)!
+            configure(cell: cell, for: indexPath!)
+        case .move:
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
+        @unknown default:
+            print("Unexpected NSFetchedResultsChangeType")
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
     }
 }
