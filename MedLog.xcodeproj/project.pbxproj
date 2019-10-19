@@ -27,6 +27,8 @@
 		90AB1AC1234C0F740018192E /* Dose+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1ABF234C0F740018192E /* Dose+CoreDataClass.swift */; };
 		90AB1AC2234C0F740018192E /* Dose+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AC0234C0F740018192E /* Dose+CoreDataProperties.swift */; };
 		90AB1AC4234C10060018192E /* Dose+CoreDataClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AC3234C10060018192E /* Dose+CoreDataClassTests.swift */; };
+		90AB1AC7235A953F0018192E /* DoseDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AC6235A953F0018192E /* DoseDetailTableViewController.swift */; };
+		90AB1AC9235A96F70018192E /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AC8235A96F70018192E /* DatePickerTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		90AB1ABF234C0F740018192E /* Dose+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dose+CoreDataClass.swift"; sourceTree = "<group>"; };
 		90AB1AC0234C0F740018192E /* Dose+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dose+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		90AB1AC3234C10060018192E /* Dose+CoreDataClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dose+CoreDataClassTests.swift"; sourceTree = "<group>"; };
+		90AB1AC6235A953F0018192E /* DoseDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoseDetailTableViewController.swift; sourceTree = "<group>"; };
+		90AB1AC8235A96F70018192E /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +131,8 @@
 				90AB1A6A2342D57F0018192E /* SceneDelegate.swift */,
 				90AB1A9B2342D8FC0018192E /* UsersTableViewController.swift */,
 				90AB1A9D2342DACC0018192E /* DosesTableViewController.swift */,
+				90AB1AC6235A953F0018192E /* DoseDetailTableViewController.swift */,
+				90AB1AC8235A96F70018192E /* DatePickerTableViewCell.swift */,
 				90AB1A6E2342D57F0018192E /* Main.storyboard */,
 				90AB1A742342D5820018192E /* Assets.xcassets */,
 				90AB1A762342D5820018192E /* LaunchScreen.storyboard */,
@@ -326,7 +332,9 @@
 				90AB1A6B2342D57F0018192E /* SceneDelegate.swift in Sources */,
 				90AB1AAD2348225B0018192E /* User+CoreDataClass.swift in Sources */,
 				90AB1AB5234A37950018192E /* Medication+CoreDataProperties.swift in Sources */,
+				90AB1AC9235A96F70018192E /* DatePickerTableViewCell.swift in Sources */,
 				90AB1AB1234A281E0018192E /* CoreDataStack.swift in Sources */,
+				90AB1AC7235A953F0018192E /* DoseDetailTableViewController.swift in Sources */,
 				90AB1A9C2342D8FC0018192E /* UsersTableViewController.swift in Sources */,
 				90AB1A9E2342DACC0018192E /* DosesTableViewController.swift in Sources */,
 				90AB1AAE2348225B0018192E /* User+CoreDataProperties.swift in Sources */,
