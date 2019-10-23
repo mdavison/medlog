@@ -15,7 +15,10 @@ protocol UserSelectionDelegate: class {
 
 class UsersTableViewController: UITableViewController {
     
-    static let userCellReuseIdentifier = "UserCell"
+    struct Storyboard {
+        static let userCellReuseIdentifier = "UserCell"
+        static let showMedicationsListSegue = "ShowMedicationsList"
+    }
     
     var coreDataStack: CoreDataStack?
     weak var delegate: UserSelectionDelegate?
@@ -41,6 +44,10 @@ class UsersTableViewController: UITableViewController {
         
         self.navigationItem.leftBarButtonItem = self.editButtonItem
         
+        let medicationsToolBarButton = UIBarButtonItem(title: "Medications", style: .plain, target: self, action: #selector(showMedications))
+        toolbarItems = [medicationsToolBarButton]
+        
+        
         do {
             try fetchedResultsController.performFetch()
         } catch let error {
@@ -54,8 +61,100 @@ class UsersTableViewController: UITableViewController {
             delegate?.userSelected(firstUser)
         }
     }
+    
 
-    // MARK: - Table view data source
+    /*
+    // Override to support rearranging the table view.
+    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+
+    }
+    */
+
+    /*
+    // Override to support conditional rearranging of the table view.
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the item to be re-orderable.
+        return true
+    }
+    */
+
+
+    // MARK: - Navigation
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Storyboard.showMedicationsListSegue {
+            guard
+                let navigationController = segue.destination as? UINavigationController,
+                let medicationsTableViewController = navigationController.topViewController as? MedicationsTableViewController else {
+                    return
+            }
+            
+            medicationsTableViewController.coreDataStack = coreDataStack
+        }
+    }
+    
+    
+    // MARK: - Actions
+    
+    @IBAction func addUser(_ sender: UIBarButtonItem) {
+        guard let coreDataStack = coreDataStack else { return }
+        
+        _ = User(name: "\(Date())", coreDataStack: coreDataStack)
+        
+        coreDataStack.saveContext()
+    }
+    
+    
+    // MARK: - Helpers
+    
+    private func configure(cell: UITableViewCell, at indexPath: IndexPath) {
+        let user = fetchedResultsController.object(at: indexPath)
+        
+        cell.textLabel?.text = user.name
+    }
+    
+    @objc private func showMedications(_ button: UIBarButtonItem) {
+        performSegue(withIdentifier: Storyboard.showMedicationsListSegue, sender: self)
+    }
+
+}
+
+
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension UsersTableViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+        
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
+        case .update:
+            let cell = tableView.cellForRow(at: indexPath!)!
+            configure(cell: cell, at: indexPath!)
+        case .move:
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
+        @unknown default:
+            print("Unexpected NSFetchedResultsChangeType")
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+}
+
+
+
+// MARK: - Table view data source
+
+extension UsersTableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }
@@ -64,9 +163,9 @@ class UsersTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: UsersTableViewController.userCellReuseIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.userCellReuseIdentifier, for: indexPath)
         
-        configure(cell: cell, for: indexPath)
+        configure(cell: cell, at: indexPath)
         
         return cell
     }
@@ -94,82 +193,5 @@ class UsersTableViewController: UITableViewController {
             coreDataStack?.managedContext.delete(user)
             coreDataStack?.saveContext()
         }
-    }
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    
-    // MARK: - Actions
-    
-    @IBAction func addUser(_ sender: UIBarButtonItem) {
-        guard let coreDataStack = coreDataStack else { return }
-        
-        _ = User(name: "\(Date())", coreDataStack: coreDataStack)
-        
-        coreDataStack.saveContext()
-    }
-    
-    
-    // MARK: - Helpers
-    
-    private func configure(cell: UITableViewCell, for indexPath: IndexPath) {
-        let user = fetchedResultsController.object(at: indexPath)
-        
-        cell.textLabel?.text = user.name
-    }
-
-}
-
-
-// MARK: - NSFetchedResultsControllerDelegate
-
-extension UsersTableViewController: NSFetchedResultsControllerDelegate {
-    
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
-    }
-        
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .automatic)
-        case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .automatic)
-        case .update:
-            let cell = tableView.cellForRow(at: indexPath!)!
-            configure(cell: cell, for: indexPath!)
-        case .move:
-            tableView.deleteRows(at: [indexPath!], with: .automatic)
-            tableView.insertRows(at: [newIndexPath!], with: .automatic)
-        @unknown default:
-            print("Unexpected NSFetchedResultsChangeType")
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
     }
 }
