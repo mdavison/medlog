@@ -64,7 +64,20 @@ class User_CoreDataClassTests: XCTestCase {
         
         XCTAssertEqual(users.count, 3)
     }
+    
+    func testCheckNameExistsTrue() {
+        let _ = User(name: "Tester", coreDataStack: coreDataStack!)
+        coreDataStack!.saveContext()
+        
+        XCTAssertEqual(User.checkNameExists("Tester", coreDataStack: coreDataStack!), true)
+    }
 
+    func testCheckNameExistsFalse() {
+        let _ = User(name: "Tester", coreDataStack: coreDataStack!)
+        coreDataStack!.saveContext()
+        
+        XCTAssertEqual(User.checkNameExists("Tester2", coreDataStack: coreDataStack!), false)
+    }
     
 
     

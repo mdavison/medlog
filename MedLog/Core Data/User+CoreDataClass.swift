@@ -32,4 +32,20 @@ public class User: NSManagedObject {
         
         return users
     }
+    
+    static func checkNameExists(_ name: String, coreDataStack: CoreDataStack) -> Bool {
+        let request: NSFetchRequest<User> = User.fetchRequest()
+        request.predicate = NSPredicate(format: "name == %@", name)
+        
+        do {
+            let results = try coreDataStack.managedContext.fetch(request)
+            if results.count > 0 {
+                return true
+            }
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        return false
+    }
 }

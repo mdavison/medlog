@@ -97,15 +97,38 @@ class UsersTableViewController: UITableViewController {
     // MARK: - Actions
     
     @IBAction func addUser(_ sender: UIBarButtonItem) {
-        guard let coreDataStack = coreDataStack else { return }
-        
-        _ = User(name: "\(Date())", coreDataStack: coreDataStack)
-        
-        coreDataStack.saveContext()
+        let alert = UIAlertController(title: "New User", message: nil, preferredStyle: .alert)
+        alert.addTextField(configurationHandler: nil)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak self] (action) in
+            if
+                let name = alert.textFields?.first?.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+                name.isEmpty == false {
+                
+                self?.saveUser(name: name)
+            }
+        }))
+        present(alert, animated: true)
     }
     
     
     // MARK: - Helpers
+    
+    private func saveUser(name: String) {
+        guard let coreDataStack = coreDataStack else { return }
+        
+        if User.checkNameExists(name, coreDataStack: coreDataStack) == true {
+            let alert = UIAlertController(title: "Name Exists", message: "Please choose a different name", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true)
+            
+            return
+        }
+        
+        _ = User(name: name, coreDataStack: coreDataStack)
+        
+        coreDataStack.saveContext()
+    }
     
     private func configure(cell: UITableViewCell, at indexPath: IndexPath) {
         let user = fetchedResultsController.object(at: indexPath)
