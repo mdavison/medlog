@@ -29,6 +29,8 @@
 		90AB1AC4234C10060018192E /* Dose+CoreDataClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AC3234C10060018192E /* Dose+CoreDataClassTests.swift */; };
 		90AB1AC7235A953F0018192E /* DoseDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AC6235A953F0018192E /* DoseDetailTableViewController.swift */; };
 		90AB1AC9235A96F70018192E /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1AC8235A96F70018192E /* DatePickerTableViewCell.swift */; };
+		90AB1ACC235C92500018192E /* MedicationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1ACB235C92500018192E /* MedicationsTableViewController.swift */; };
+		90AB1ACF235C9AA20018192E /* MedicationDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB1ACE235C9AA20018192E /* MedicationDetailTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,8 @@
 		90AB1AC3234C10060018192E /* Dose+CoreDataClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dose+CoreDataClassTests.swift"; sourceTree = "<group>"; };
 		90AB1AC6235A953F0018192E /* DoseDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoseDetailTableViewController.swift; sourceTree = "<group>"; };
 		90AB1AC8235A96F70018192E /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewCell.swift; sourceTree = "<group>"; };
+		90AB1ACB235C92500018192E /* MedicationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationsTableViewController.swift; sourceTree = "<group>"; };
+		90AB1ACE235C9AA20018192E /* MedicationDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationDetailTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,10 +133,9 @@
 			children = (
 				90AB1A682342D57F0018192E /* AppDelegate.swift */,
 				90AB1A6A2342D57F0018192E /* SceneDelegate.swift */,
-				90AB1A9B2342D8FC0018192E /* UsersTableViewController.swift */,
-				90AB1A9D2342DACC0018192E /* DosesTableViewController.swift */,
-				90AB1AC6235A953F0018192E /* DoseDetailTableViewController.swift */,
-				90AB1AC8235A96F70018192E /* DatePickerTableViewCell.swift */,
+				90AB1AD1235C9AB40018192E /* Users */,
+				90AB1AD0235C9AA90018192E /* Medications */,
+				90AB1ACD235C9A8B0018192E /* Doses */,
 				90AB1A6E2342D57F0018192E /* Main.storyboard */,
 				90AB1A742342D5820018192E /* Assets.xcassets */,
 				90AB1A762342D5820018192E /* LaunchScreen.storyboard */,
@@ -192,6 +195,33 @@
 				90AB1AC3234C10060018192E /* Dose+CoreDataClassTests.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		90AB1ACD235C9A8B0018192E /* Doses */ = {
+			isa = PBXGroup;
+			children = (
+				90AB1A9D2342DACC0018192E /* DosesTableViewController.swift */,
+				90AB1AC6235A953F0018192E /* DoseDetailTableViewController.swift */,
+				90AB1AC8235A96F70018192E /* DatePickerTableViewCell.swift */,
+			);
+			path = Doses;
+			sourceTree = "<group>";
+		};
+		90AB1AD0235C9AA90018192E /* Medications */ = {
+			isa = PBXGroup;
+			children = (
+				90AB1ACB235C92500018192E /* MedicationsTableViewController.swift */,
+				90AB1ACE235C9AA20018192E /* MedicationDetailTableViewController.swift */,
+			);
+			path = Medications;
+			sourceTree = "<group>";
+		};
+		90AB1AD1235C9AB40018192E /* Users */ = {
+			isa = PBXGroup;
+			children = (
+				90AB1A9B2342D8FC0018192E /* UsersTableViewController.swift */,
+			);
+			path = Users;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -336,9 +366,11 @@
 				90AB1AB1234A281E0018192E /* CoreDataStack.swift in Sources */,
 				90AB1AC7235A953F0018192E /* DoseDetailTableViewController.swift in Sources */,
 				90AB1A9C2342D8FC0018192E /* UsersTableViewController.swift in Sources */,
+				90AB1ACF235C9AA20018192E /* MedicationDetailTableViewController.swift in Sources */,
 				90AB1A9E2342DACC0018192E /* DosesTableViewController.swift in Sources */,
 				90AB1AAE2348225B0018192E /* User+CoreDataProperties.swift in Sources */,
 				90AB1A732342D5800018192E /* MedLog.xcdatamodeld in Sources */,
+				90AB1ACC235C92500018192E /* MedicationsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

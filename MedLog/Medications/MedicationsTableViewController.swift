@@ -1,28 +1,26 @@
 //
-//  UsersTableViewController.swift
+//  MedicationsTableViewController.swift
 //  MedLog
 //
-//  Created by Morgan Davison on 9/30/19.
+//  Created by Morgan Davison on 10/20/19.
 //  Copyright © 2019 Morgan Davison. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-protocol UserSelectionDelegate: class {
-    func userSelected(_ user: User)
-}
-
-class UsersTableViewController: UITableViewController {
+class MedicationsTableViewController: UITableViewController {
     
-    static let userCellReuseIdentifier = "UserCell"
+    struct Storyboard {
+        static let medicationCellReuseIdentifier = "MedicationCell"
+        static let medicationDetailSegue = "MedicationDetailSegue"
+    }
     
     var coreDataStack: CoreDataStack?
-    weak var delegate: UserSelectionDelegate?
     
-    lazy var fetchedResultsController: NSFetchedResultsController<User> = {
-        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
-        let sort = NSSortDescriptor(key: #keyPath(User.name), ascending: true)
+    lazy var fetchedResultsController: NSFetchedResultsController<Medication> = {
+        let fetchRequest: NSFetchRequest<Medication> = Medication.fetchRequest()
+        let sort = NSSortDescriptor(key: #keyPath(Medication.name), ascending: true)
         fetchRequest.sortDescriptors = [sort]
         
         let fetchedResultsController = NSFetchedResultsController(
@@ -34,28 +32,58 @@ class UsersTableViewController: UITableViewController {
         
         return fetchedResultsController
     }()
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.leftBarButtonItem = self.editButtonItem
+        title = "Medications"
         
         do {
             try fetchedResultsController.performFetch()
         } catch let error {
             print("Fetching error: \(error.localizedDescription)")
         }
-        
-        // Select the first user by default
-        // TODO: Remember the last selection and select that one instead of the first one
-        if let firstUser = fetchedResultsController.fetchedObjects?.first {
-            tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
-            delegate?.userSelected(firstUser)
+    }
+
+
+
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Storyboard.medicationDetailSegue {
+            guard
+                let navController = segue.destination as? UINavigationController,
+                let medicationDetailController = navController.topViewController as? MedicationDetailTableViewController else {
+                return
+            }
+            
+            medicationDetailController.delegate = self 
         }
     }
 
-    // MARK: - Table view data source
+    
+    
+    // MARK: - Actions
+    
+    @IBAction func done(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    // MARK: - Helpers
+    
+    private func configure(cell: UITableViewCell, at indexPath: IndexPath) {
+        let medication = fetchedResultsController.object(at: indexPath)
+        
+        cell.textLabel?.text = medication.name
+    }
+        
+}
+
+
+// MARK: - Table view data source
+
+extension MedicationsTableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }
@@ -64,37 +92,32 @@ class UsersTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: UsersTableViewController.userCellReuseIdentifier, for: indexPath)
-        
-        configure(cell: cell, for: indexPath)
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.medicationCellReuseIdentifier, for: indexPath)
+
+        configure(cell: cell, at: indexPath)
+
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedUser = fetchedResultsController.object(at: indexPath)
-        
-        delegate?.userSelected(selectedUser)
-        
-        // Make it work on iPhone
-        if
-            let dosesTableViewController = delegate as? DosesTableViewController,
-            let dosesNavController = dosesTableViewController.navigationController {
-            splitViewController?.showDetailViewController(dosesNavController, sender: nil)
-        }
-    }
 
+    /*
+    // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
         return true
     }
+    */
 
+    /*
+    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let user = fetchedResultsController.object(at: indexPath)
-            coreDataStack?.managedContext.delete(user)
-            coreDataStack?.saveContext()
+            // Delete the row from the data source
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
+    */
 
     /*
     // Override to support rearranging the table view.
@@ -110,48 +133,33 @@ class UsersTableViewController: UITableViewController {
         return true
     }
     */
+}
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+// MARK: - MedicationDetailTableViewControllerDelegate
+
+extension MedicationsTableViewController: MedicationDetailTableViewControllerDelegate {
     
-    
-    // MARK: - Actions
-    
-    @IBAction func addUser(_ sender: UIBarButtonItem) {
+    func didFinishEditingName(controller: MedicationDetailTableViewController, name: String) {
         guard let coreDataStack = coreDataStack else { return }
         
-        _ = User(name: "\(Date())", coreDataStack: coreDataStack)
+        _ = Medication(name: name, coreDataStack: coreDataStack)
         
         coreDataStack.saveContext()
-    }
-    
-    
-    // MARK: - Helpers
-    
-    private func configure(cell: UITableViewCell, for indexPath: IndexPath) {
-        let user = fetchedResultsController.object(at: indexPath)
         
-        cell.textLabel?.text = user.name
+//        tableView.reloadData()
     }
-
 }
 
 
 // MARK: - NSFetchedResultsControllerDelegate
 
-extension UsersTableViewController: NSFetchedResultsControllerDelegate {
+extension MedicationsTableViewController: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
-        
+    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
@@ -160,7 +168,7 @@ extension UsersTableViewController: NSFetchedResultsControllerDelegate {
             tableView.deleteRows(at: [indexPath!], with: .automatic)
         case .update:
             let cell = tableView.cellForRow(at: indexPath!)!
-            configure(cell: cell, for: indexPath!)
+            configure(cell: cell, at: indexPath!)
         case .move:
             tableView.deleteRows(at: [indexPath!], with: .automatic)
             tableView.insertRows(at: [newIndexPath!], with: .automatic)
